@@ -1,17 +1,19 @@
-import os
 from typing import Dict, Any
-from groq import Groq
 import json
 import re
-import json
-
-
-# Make sure to set your Groq API key in environment variables
+from dotenv import load_dotenv
 import os
+from groq import Groq
+
+load_dotenv('.env.example')
+
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 if not GROQ_API_KEY:
     raise RuntimeError('GROQ_API_KEY not set. Please create a .env file or export GROQ_API_KEY.')
+
 client = Groq(api_key=GROQ_API_KEY)
+
+
 def transcribe_audio_bytes(audio_path: str) -> str:
     with open(audio_path, "rb") as f:
         resp = client.audio.transcriptions.create(
